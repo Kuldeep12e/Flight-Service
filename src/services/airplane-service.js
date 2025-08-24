@@ -3,6 +3,7 @@ const {AirplaneRepository} = require('../repositories');
 const  AppError = require('../utils/errors/app-error');
 
 const airplaneRepostiory = new AirplaneRepository();
+
 function createAirplane(data) {
    try{
      const airplane = airplaneRepostiory.create(data);
@@ -41,9 +42,22 @@ async function getAirplane(id){
   }
 }
 
+async function destroyAirplane(id){
+  try{
+    const response = await airplaneRepostiory.destroy(id);
+    return response;
+  }catch (error) {
+    if(error.statusCode == StatusCodes.NOT_FOUND){
+      throw new AppError("The airplane you requested to delete is not available", StatusCodes.NOT_FOUND);
+    }
+    throw new AppError("Can not delete data of airplane" , StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+}
+
 module.exports = {
   createAirplane,
   getAirplanes,
-  getAirplane
+  getAirplane,
+  destroyAirplane
   // Other service methods can be added here
 };
