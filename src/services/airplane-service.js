@@ -28,8 +28,22 @@ async function getAirplanes(){
   }
 }
 
+
+async function getAirplane(id){
+  try{
+    const airplane = await airplaneRepostiory.get(id);
+    return airplane;
+  }catch (error) {
+    if(error.statusCode == StatusCodes.NOT_FOUND){
+      throw new AppError("The airplane you requested is not available", StatusCodes.NOT_FOUND);
+    } 
+    throw new AppError("Can not fetch data of airplane" , StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+}
+
 module.exports = {
   createAirplane,
-  getAirplanes
+  getAirplanes,
+  getAirplane
   // Other service methods can be added here
 };
