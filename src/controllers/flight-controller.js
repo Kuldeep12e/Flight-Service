@@ -2,6 +2,7 @@ const {FlightService} = require('../services');
 const {StatusCodes} = require('http-status-codes');
 const {SuccessResponse , ErrorResponse} = require('../utils/common');
 const { add } = require('nodemon/lib/rules');
+const { get } = require('../routes/v1');
 
 
 async function createFlight(req, res) {
@@ -29,10 +30,22 @@ async function createFlight(req, res) {
 }
 
 
-
+async function getAllFlights(req, res){
+    try{
+      const flights = await FlightService.getAllFlight(req.query);
+      SuccessResponse.data = flights;
+      return res.status(StatusCodes.OK).json(SuccessResponse)
+    }catch (error) {
+      ErrorResponse.error = error;        
+      return res
+          .status(error.statusCode)
+          .json(ErrorResponse);
+    }
+  }
 
 
 module.exports = {
     createFlight,
+    getAllFlights
  
 };

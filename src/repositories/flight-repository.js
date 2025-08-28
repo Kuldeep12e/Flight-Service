@@ -5,6 +5,9 @@ class FlightRepository extends crudRepository {
     constructor() {
         super(Flight);
     }
-        // Additional methods specific to Flight can be added here    
+        getAllFlights(filter, sort) {
+            return this.model.findAll({ where: filter , order: sort });
+
+        }
     }
 module.exports = FlightRepository;  

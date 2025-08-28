@@ -14,15 +14,42 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Flight.init({
-    flightNumber: DataTypes.STRING,
-    airplaneId: DataTypes.INTEGER,
-    departureAirportId: DataTypes.INTEGER,
-    arrivalAirportId: DataTypes.INTEGER,
-    arrivalTime: DataTypes.DATE,
-    departureTime: DataTypes.DATE,
-    price: DataTypes.INTEGER,
-    boardingGate: DataTypes.STRING,
-    totalSeats: DataTypes.INTEGER
+    flightNumber:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    airplaneId:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    departureAirportId:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    arrivalAirportId:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    arrivalTime:{
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    departureTime:{
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    price:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    boardingGate:{
+      type: DataTypes.STRING,
+    },
+    totalSeats:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
+   
   }, {
     sequelize,
     modelName: 'Flight',

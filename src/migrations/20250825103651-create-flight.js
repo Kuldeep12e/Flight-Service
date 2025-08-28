@@ -1,4 +1,7 @@
 'use strict';
+
+const { all } = require('../routes/v1');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,31 +13,57 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       flightNumber: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       airplaneId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Airplanes',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       departureAirportId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING,
+        allowNull: false,
+        references: {
+          model: 'Airports',
+          key: 'code'  // ✅ references Airports.code
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       arrivalAirportId: {
-        type: Sequelize.INTEGER
-      },
-      arrivalTime: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING,
+        allowNull: false,
+        references: {
+          model: 'Airports',
+          key: 'code'  // ✅ references Airports.code
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       departureTime: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      arrivalTime: {
+        type: Sequelize.DATE,
+        allowNull: false
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       boardingGate: {
         type: Sequelize.STRING
       },
       totalSeats: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
