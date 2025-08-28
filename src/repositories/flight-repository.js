@@ -1,13 +1,38 @@
 const crudRepository = require('./crud-repository');
-const {Flight} = require('../models');
+const {Flight , Airplane , Airport} = require('../models');
+const { required } = require('nodemon/lib/config');
+const {sequelize} = require('sequelize');
+
 
 class FlightRepository extends crudRepository { 
     constructor() {
         super(Flight);
     }
-        getAllFlights(filter, sort) {
-            return this.model.findAll({ where: filter , order: sort });
+        async getAllFlights(filter, sort) {
+            const response = await Flight.findAll({
+                where: filter,
+                order: sort,
+                include: [
+                    {
+                        model: Airplane,
+                        required: true
+                    },
+                    {
+                        model: Airport,
+                        required: true,
+                        as: 'departureAirport'                  
+                    },
+                    {
+                        model: Airport,
+                        required: true,
+                        as: 'arrivalAirport'                  
+                    }
+                ]
+                
+                
+            });
+           return response
 
         }
     }
-module.exports = FlightRepository;  
+module.exports = FlightRepository;
