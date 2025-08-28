@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      class: {
+      type: {
         type: Sequelize.ENUM,
         values: [ECONOMY , BUSINESS , FIRST_CLASS , PREMIUM_ECONOMY],
         defaultValue: ECONOMY,
