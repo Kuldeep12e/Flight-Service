@@ -8,4 +8,5 @@ const { route } = require('./airplane-route');
 // /api/v1/flights POST
 router.post('/', FlightMiddleware.validateCreateRequest, FlightController.createFlight)
 router.get('/', FlightController.getAllFlights);
+router.get('/:id' , FlightController.getFlight);
 module.exports = router;
