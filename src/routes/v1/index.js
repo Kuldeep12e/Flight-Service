@@ -14,4 +14,5 @@ router.use('/airports', airportRoute);
 router.use('/city', cityRoute);
 router.use('/flights', flightRoute);
 
+
 module.exports = router;

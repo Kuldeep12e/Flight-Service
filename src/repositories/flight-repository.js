@@ -3,6 +3,8 @@ const {Flight , Airplane , Airport , City} = require('../models');
 const { required } = require('nodemon/lib/config');
 const {sequelize} = require('sequelize');
 
+const db = require('../models')
+
 
 class FlightRepository extends crudRepository { 
     constructor() {
@@ -42,6 +44,22 @@ class FlightRepository extends crudRepository {
             });
            return response
 
+
+
         }
+
+    async updateRemainingSeats(flightId, seats, dec = true) {
+    await db.sequelize.query(`Select * from Flights WHERE Flights.id= ${flightId} FOR UPDATE;`)
+    const flight = await Flight.findByPk(flightId);
+    if (!flight) return null;
+    if (parseInt(dec)) {
+        await flight.decrement('totalSeats', { by: seats });
+    } else {
+        await flight.increment('totalSeats', { by: seats });
+    }
+    await flight.reload(); 
+    return flight;
+  }
+
     }
 module.exports = FlightRepository;
