@@ -52,7 +52,7 @@ class FlightRepository extends crudRepository {
     await db.sequelize.query(`Select * from Flights WHERE Flights.id= ${flightId} FOR UPDATE;`)
     const flight = await Flight.findByPk(flightId);
     if (!flight) return null;
-    if (parseInt(dec)) {
+    if (+dec) {
         await flight.decrement('totalSeats', { by: seats });
     } else {
         await flight.increment('totalSeats', { by: seats });
