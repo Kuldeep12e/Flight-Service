@@ -48,18 +48,30 @@ class FlightRepository extends crudRepository {
 
         }
 
-    async updateRemainingSeats(flightId, seats, dec = true) {
+    async updateRemainingSeats(flightId, seats, dec ) {
+     const transaction = await db.sequelize.transaction();
+    try {     
     await db.sequelize.query(`Select * from Flights WHERE Flights.id= ${flightId} FOR UPDATE;`)
     const flight = await Flight.findByPk(flightId);
-    if (!flight) return null;
+     console.log(dec);
     if (+dec) {
-        await flight.decrement('totalSeats', { by: seats });
+        await flight.decrement('totalSeats', { by: seats }, { transaction: transaction });
     } else {
-        await flight.increment('totalSeats', { by: seats });
+        await flight.increment('totalSeats', { by: seats }, { transaction: transaction });
     }
-    await flight.reload(); 
-    return flight;
-  }
 
+    await flight.reload(); 
+    await transaction.commit();
+    return flight;
+  
+        
+    } catch (error) {
+        await transaction.rollback();
+        throw error;
+    
+    
     }
+    }
+    
+}
 module.exports = FlightRepository;
